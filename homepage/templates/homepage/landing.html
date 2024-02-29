@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %} {% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-white">
+    <nav class="bg-gray-800">
+        <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+            <div class="relative flex h-16 items-center justify-between">
+                <div class="absolute inset-y-0 left-0 flex items-center sm:hidden">
+                    <!-- Mobile menu button-->
+                    <button type="button"
+                        class="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
+                        aria-controls="mobile-menu" aria-expanded="false">
+                        <span class="absolute -inset-0.5"></span>
+                        <span class="sr-only">Open main menu</span>
+                        <!--
+                    Icon when menu is closed.
+        
+                    Menu open: "hidden", Menu closed: "block"
+                  -->
+                        <svg class="block h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                            stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+                        </svg>
+                        <!--
+                    Icon when menu is open.
+        
+                    Menu open: "block", Menu closed: "hidden"
+                  -->
+                        <svg class="hidden h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                            stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+                <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
+                    <div class="flex flex-shrink-0 items-center">
+                        <a href="/">
+                            <p class="text-lg text-bold text-white">Beats.com</p>
+                        </a>
+                    </div>
+                    <div class="hidden sm:ml-6 sm:block">
+                        <div class="flex space-x-4">
+                            <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
+                            <a href="/"
+                                class="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium"
+                                aria-current="page">Home</a>
+                            <a href="{% url 'store:store' %}"
+                                class="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">Shop
+                                Now</a>
+                            <a href="#"
+                                class="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">Checkout</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+
+
+                    <!-- Profile dropdown -->
+                    <div class="relative ml-3">
+                        <div>
+                            <button type="button"
+                                class="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+                                id="user-menu-button" aria-expanded="false" aria-haspopup="true">
+                                <span class="absolute -inset-1.5"></span>
+                                <span class="sr-only">Open user menu</span>
+                                <!-- <img class="h-8 w-8 rounded-full" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt=""> -->
+                                <svg xmlns="http://www.w3.org/2000/svg" height="16" width="14" viewBox="0 0 448 512"
+                                    class="h-8 w-8 rounded-xl">
+                                    <path
+                                        d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H418.3c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304H178.3z" />
+                                </svg>
+                            </button>
+                        </div>
+
+                        <!--
+                    Dropdown menu, show/hide based on menu state.
+        
+                    Entering: "transition ease-out duration-100"
+                      From: "transform opacity-0 scale-95"
+                      To: "transform opacity-100 scale-100"
+                    Leaving: "transition ease-in duration-75"
+                      From: "transform opacity-100 scale-100"
+                      To: "transform opacity-0 scale-95"
+                  -->
+                        <div class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-gray-900 py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none hidden"
+                            id="user-menu" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button"
+                            tabindex="-1">
+                            <!-- Active: "bg-gray-100", Not Active: "" -->
+                            {% if request.user.is_staff %}
+                            <a href="#" class="block px-4 py-2 text-sm text-white" role="menuitem" tabindex="-1"
+                                id="user-menu-item-0">Seller Profile</a>
+                            {% else %}
+                            <a href="#" class="block px-4 py-2 text-sm text-white" role="menuitem" tabindex="-1"
+                                id="user-menu-item-0">Your Profile</a>
+                            {% endif %}
+                            <a href="#" class="block px-4 py-2 text-sm text-white" role="menuitem" tabindex="-1"
+                                id="user-menu-item-1">Checkout</a>
+                            {% if request.user.is_authenticated %}
+                            <a href="{% url 'homepage:logout' %}" class="block px-4 py-2 text-sm text-white" role="menuitem" tabindex="-1"
+                                id="user-menu-item-2">Sign out</a>
+                            {% else %}
+                            <a href="{% url 'homepage:login' %}" class="block px-4 py-2 text-sm text-white" role="menuitem" tabindex="-1"
+                                id="user-menu-item-2">Sign in</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile menu, show/hide based on menu state. -->
+        <div class="sm:hidden hidden fade-in" id="mobile-menu">
+            <div class="space-y-1 px-2 pb-3 pt-2">
+                <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
+                <a href="/"
+                    class="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium"
+                    aria-current="page">Home</a>
+                <a href="{% url 'store:store' %}"
+                    class="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium"
+                    aria-current="page">Shop now</a>
+            </div>
+    </nav>
+    <style>
+        /* Define fade-in animation */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes dropDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Apply animation to the mobile menu */
+        .fade-in {
+            animation: fadeIn 0.3s ease-in-out;
+        }
+    </style>
+    <script>
+        // Function to handle dropdown menu visibility toggle
+        function toggleDropdownMenu(menuId) {
+            const menu = document.getElementById(menuId);
+            if (menu.classList.contains("hidden")) {
+                // Show the menu
+                menu.classList.remove("hidden");
+                menu.classList.add("block");
+            } else {
+                // Hide the menu
+                menu.classList.remove("block");
+                menu.classList.add("hidden");
+            }
+        }
+
+        // Event listeners for dropdown buttons
+        const userMenuButton = document.getElementById("user-menu-button");
+        const mobileMenuButton = document.querySelector(
+            '[aria-controls="mobile-menu"]'
+        );
+
+        userMenuButton.addEventListener("click", function () {
+            toggleDropdownMenu("user-menu");
+        });
+
+        mobileMenuButton.addEventListener("click", function () {
+            toggleDropdownMenu("mobile-menu");
+        });
+    </script>
+
+
+    {% block content %} {% endblock %}
+    <footer class="py-6 px-6 flex justify-between bg-gray-800 font-sans">
+        <div class="w-2/3 pr-10">
+            <h3 class="mb-5 font-semibold text-white">
+                About
+            </h3>
+            <p class="text-lg text-white">
+                Beats by Dr. Dre (Beats) is a leading audio brand founded in 2006 by Dr. Dre and Jimmy Iovine.
+            </p>
+            <a href="https://github.com/rokari-19" class="text-sm text-white hover:text-gray-100">Website By: @ROKARI_BUILDS</a>
+        </div>
+
+        <div class="w-1/3">
+            <h3 class="mb-5 font-semibold text-white">Menu</h3>
+            <ul class="space-y-2">
+                <span class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+                    {% if request.user.is_authenticated %}
+                    {% else %}
+                    <li><a href="{% url 'homepage:signup' %}" class="text-lg text-white">Create an Account</a></li>
+                    {% endif %}
+                    <li><a href="#" class="text-lg text-white">Socials</a></li>
+                    <li><a href="#" class="text-lg text-white">FAQs</a></li>
+                    <li><a href="" class="text-lg text-white">Contact</a></li>
+                    <li><a href="#" class="text-lg text-white">Terms Of Use</a></li>
+                </span>
+            </ul>
+        </div>
+    </footer>
+</body>
+
+</html>

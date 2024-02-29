@@ -1,0 +1,37 @@
+{% extends 'homepage/landing.html' %}
+
+{% block title %} Home {% endblock %}
+
+{% block content %}
+    <div class="items-center">
+        <h1 class= "text-center text-2-xl font-semibold text-gray-100">the home page</h1>
+    </div>
+    <div class="min-h-screen flex flex-col justify-center lg:flex-row items-center lg:justify-between lg:px-30 px-5">       
+        <div class="w-full lg:w-2/4 space-y-4 mt-20">
+            <div class="text-5xl font-semibold leading-tight">Discover Next-Level Audio Experiences</div> <br>           
+            <p>Beats offer a variety of headphones, including over-ear, on-ear, and earbuds.
+                Beats headphones are known for their bass-heavy sound profile, which is popular with many music lovers.</p> 
+        </div>
+        <div class="mt-10">
+            <a href="https://ibb.co/8Bv0r1Z"><img src="https://i.ibb.co/7zMXnsm/brown-01-cnet-jpg-large-2x.jpg" alt="brown-01-cnet-jpg-large-2x"></a><br /><a target='_blank' href='https://imgbb.com/'></a><br />
+        </div>
+    </div>
+    <div class="">
+        
+        <div class="mt-6 px-6 py-12 bg-white rounded-xl">
+            <h2 class="font-semibold text-5xl py-7 text-center ">Popular Now</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+                {% for category in categories %}
+                    <div>
+                        <a href="{% url 'store:store' %}">
+                            <div class="p-6 bg-gray-100 rounded-xl">
+                                <h2 class="text-xl text-center">{{ category.name }}</h2>
+                                <!-- <p class="text-black text-center">{{ category.items.count }} Items</p> -->
+                            </div>
+                        </a>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
