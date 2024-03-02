@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 from .models import Headphone
+from cart.cart import Cart
 
 def store(request):
     items = Headphone.objects.all()
@@ -11,11 +12,14 @@ def store(request):
     })
 
 def detail(request ,pk):
+    cart = Cart(request)
+    cart_items = cart.get_prods
     item = get_object_or_404(Headphone, pk=pk)
     related_items = Headphone.objects.filter(htype = item.htype).exclude(pk=pk)[0:2]
     return render(request, 'store/itemdetail.html', {
         'product':item,
-        'similar':related_items
+        'similar':related_items,
+        'cart_items':cart_items
     })
 
 @login_required

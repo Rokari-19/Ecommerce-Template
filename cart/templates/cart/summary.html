@@ -1,22 +1,111 @@
 {% extends 'homepage/landing.html' %}
 {% block title %} Cart {% endblock %}
 {% block content %}
+{% if cart_items %}
 <div class="mt-6 px-6 py-12 bg-white rounded-xl">
     <h2 class="mb-8 text-5xl text-center">My Cart</h2>
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
         {% for item in cart_items %}
         <div>
-            <a href="{% url 'store:detail' item.id %}">
-                <div>
-                    <img src="{{ item.image.url }}" class="rounded-t-xl">
+            <div class="p-6 bg-gray-100 rounded-xl">
+                <a href="{% url 'store:detail' item.id %}">
+                    <div>
+                        <img src="{{ item.image.url }}" class="rounded-t-xl">
+                    </div>
+                    <div>
+                        <h2 class="text-2xl">{{ item.name }}</h2>
+                        <p class="text-black-500">Price: N{{ item.price }}</p>
+                        <div class="my-5">
+                        </div>
+                    </div>
+                </a>
+                <div class="my-5">
+                    <select id="select{{ item.id }}" class="bg-gray-800 border border-gray-800 text-gray-900 text-sm rounded-lg focus:ring-gray-800 focus:border-gray-800 block w-full p-2.5 dark:bg-gray-800 dark:border-gray-800 dark:placeholder-gray-400 dark:text-white dark:focus:ring-gray-800 dark:focus:border-gray-800">
+                        <option selected>
+                            {% for key, value in quantities.items %}
+                                {% if key == item.id|slugify %}
+                                    {{ value }}
+                                {% endif %}
+                            {% endfor %}
+                        </option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                    </select> 
                 </div>
-                <div class="p-6 bg-gray-100 rounded-xl">
-                    <h2 class="text-2xl">{{ item.name }}</h2>
-                    <p class="text-black-500">Price: N{{ item.price }}</p>
+                <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+                    <div class="items-center col-span-1 sm:col-span-1 md:col-span-1 lg:col-span-2">
+                        <button type="button" data-index="{{ item.id }}" class="update-cart  inline-block mt-6 px-6 py-3 mb-3 mx-4 text-md font-semibold text-white bg-gray-800 hover:br-gray-600 rounded-lg">
+                            Update
+                        </button>
+                    </div>
+                    <div class="items-center col-span-1 sm:col-span-1 md:col-span-1 lg:col-span-2">
+                        <button type="button" data-index="{{ item.id }}" class="delete-item inline-block mt-6 px-6 py-3 mb-3 mx-4 text-md font-semibold text-white bg-red-600 hover:br-gray-600 rounded-lg">
+                            Remove
+                        </button>
+                    </div>
                 </div>
-            </a>
+            </div>
         </div>
     {% endfor %}
     </div>
 </div>
+{% else %}
+<h1 class="text-base text-4xl text-center m-10">
+    There's nothing in your cart
+</h1>
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+{% endif %}
+
+<script>
+    // update cart
+    $(document).on('click', '.update-cart', function(e){
+        e.preventDefault();
+        var productid = $(this).data('index');
+        $.ajax({
+            type:'POST',
+            url:"{% url 'cart:cart_update' %}",
+            data:{
+                product_id: $(this).data('index'),
+                product_qty: $('#select' + productid + ' option:selected').text(),
+                csrfmiddlewaretoken:'{{ csrf_token }}',
+                action:'post'
+            },
+            success: function(json) {
+                // console.log(json)
+                // document.getElementById('cart_qty').textContent = (json.qty)
+                window.location.reload()
+            },
+            error: function(xhr, errmsg, err) {
+                
+            }
+        });
+        window.location.reload()
+    });
+
+    // delete item from cart
+    $(document).on('click', '.delete-item', function(e){
+        e.preventDefault();
+        var productid = $(this).data('index');
+        $.ajax({
+            type:'POST',
+            url:"{% url 'cart:cart_delete' %}",
+            data:{
+                product_id: $(this).data('index'),
+                csrfmiddlewaretoken:'{{ csrf_token }}',
+                action:'post'
+            },
+            success: function(json) {
+                // console.log(json)
+                // document.getElementById('cart_qty').textContent = (json.qty)
+                window.location.reload()
+            },
+            error: function(xhr, errmsg, err) {
+                
+            }
+        });
+        window.location.reload()
+    });
+</script>
 {% endblock %}
