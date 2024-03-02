@@ -3,7 +3,6 @@ from django.contrib.auth import logout
 from store.models import *
 
 from . import forms
-
 # Create your views here.
 def index(request):
     category = HeadphoneType.objects.all()

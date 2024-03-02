@@ -1,0 +1,50 @@
+{% extends 'homepage/landing.html' %}
+
+{% block title %}{{ product.name }}{% endblock %}
+
+{% block content %}
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+    {% if product.image.url %}
+    <div class="col-auto sm:col-auto md:col-span-2 lg:col-span-2">
+        <img src="{{ product.image.url }}" class="rounded-lg">
+    </div>
+    {% endif %}
+    <div class="col-auto sm:col-auto md:col-span-1 lg:col-span-2 bg-white rounded-xl px-5 py-4">
+        <h1 class="mb-6 text-3xl text-black">{{ product.name }}</h1>
+        <p class="text-black"><strong>Price: </strong>{{ product.price }}</p>
+        <!-- <p class="text-black-500"><strong>Seller: </strong>{{ product.created_by }}</p> -->
+        {% if product.specs %}
+            <p class="text-gray-500">
+                <strong class="text-gray-900">Details: </strong><br>
+                {{ product.specs }}
+                
+            </p>
+        {% endif %}
+        <a href="#" class="inline-block mt-6 px-6 py-3 text-md font-semibold bg-gray-800 text-white hover:bg-gray-600 rounded-lg">Buy Now</a>
+        <button id="add-cart" value="{{ product.id }}" class="inline-block mt-6 px-6 py-3 text-md font-semibold bg-gray-800 text-white hover:bg-gray-600 rounded-lg">
+            Add To Cart
+        </button>
+    </div>
+</div>
+
+<script>
+    $(document).on('click', '#add-cart', function(e){
+        e.preventDefault();
+        $.ajax({
+            type:'POST',
+            url:"{% url 'cart:add_cart' %}",
+            data:{
+                product_id: $('#add-cart').val(),
+                csrfmiddlewaretoken:'{{ csrf_token }}',
+                action:'post'
+            },
+            success: function(json) {
+                console.log(json)
+            },
+            error: function(xhr, errmsg, err) {
+                
+            }
+        });
+    });
+</script>
+{% endblock %}

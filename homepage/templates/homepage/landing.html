@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{% block title %} {% endblock %}</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 </head>
 
 <body class="bg-white">
@@ -55,7 +56,7 @@
                             <a href="{% url 'store:store' %}"
                                 class="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">Shop
                                 Now</a>
-                            <a href="#"
+                            <a href="{% url 'cart:cart_summary' %}"
                                 class="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">Checkout</a>
                         </div>
                     </div>
@@ -101,7 +102,7 @@
                             <a href="#" class="block px-4 py-2 text-sm text-white" role="menuitem" tabindex="-1"
                                 id="user-menu-item-0">Your Profile</a>
                             {% endif %}
-                            <a href="#" class="block px-4 py-2 text-sm text-white" role="menuitem" tabindex="-1"
+                            <a href="{% url 'cart:cart_summary' %}" class="block px-4 py-2 text-sm text-white" role="menuitem" tabindex="-1"
                                 id="user-menu-item-1">Checkout</a>
                             {% if request.user.is_authenticated %}
                             <a href="{% url 'homepage:logout' %}" class="block px-4 py-2 text-sm text-white" role="menuitem" tabindex="-1"
@@ -199,7 +200,8 @@
             <p class="text-lg text-white">
                 Beats by Dr. Dre (Beats) is a leading audio brand founded in 2006 by Dr. Dre and Jimmy Iovine.
             </p>
-            <a href="https://github.com/rokari-19" class="text-sm text-white hover:text-gray-100">Website By: @ROKARI_BUILDS</a>
+            <a href="https://twitter.com/rokarioss1" class="text-sm text-white hover:text-gray-100">Website By: @rokarioss1(twitter)</a><br>
+            <a href="https://github.com/rokari-19" class="text-sm text-white hover:text-gray-100">rokari-19(github)</a>
         </div>
 
         <div class="w-1/3">

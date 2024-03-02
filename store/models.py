@@ -14,7 +14,7 @@ class HeadphoneType(models.Model):
 
 
 class Headphone(models.Model):
-    htype = models.ForeignKey(HeadphoneType, related_name = 'headphones', on_delete = models.CASCADE)
+    htype = models.ForeignKey(HeadphoneType, related_name = 'items', on_delete = models.CASCADE)
     name = models.CharField(max_length = 255)
     specs = models.TextField(blank=True, null=True)
     price = models.FloatField()
