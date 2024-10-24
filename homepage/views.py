@@ -5,7 +5,7 @@ from store.models import *
 from . import forms
 # Create your views here.
 def index(request):
-    category = HeadphoneType.objects.all()
+    category = ProductType.objects.all()
     return render(request, 'homepage/index.html', {
         'categories': category
     })

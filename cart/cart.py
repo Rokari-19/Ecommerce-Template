@@ -1,4 +1,4 @@
-from store.models import Headphone
+from store.models import Product
 
 
 class Cart():
@@ -33,7 +33,7 @@ class Cart():
     def get_prods(self):
         product_ids = self.cart.keys()
 
-        products = Headphone.objects.filter(id__in = product_ids)
+        products = Product.objects.filter(id__in = product_ids)
 
         return products
     

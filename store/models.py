@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 # Create your models here.
 
-class HeadphoneType(models.Model):
+class ProductType(models.Model):
     name = models.CharField(max_length = 255)
 
     class Meta:
@@ -13,8 +13,8 @@ class HeadphoneType(models.Model):
     
 
 
-class Headphone(models.Model):
-    htype = models.ForeignKey(HeadphoneType, related_name = 'items', on_delete = models.CASCADE)
+class Product(models.Model):
+    htype = models.ForeignKey(ProductType, related_name = 'items', on_delete = models.CASCADE)
     name = models.CharField(max_length = 255)
     specs = models.TextField(blank=True, null=True)
     price = models.FloatField()
